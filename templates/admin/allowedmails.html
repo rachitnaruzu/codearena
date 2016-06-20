@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+
+{% block title %}Allowed Mails{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="col-lg-12">
+            <h1>Allowed Mails</h1>
+        </div>
+    </div>
+    <div class="row top-buffer">
+        <div class="col-lg-12">
+            {% if error %}
+                <div class="alert alert-warning">
+                    <p>{{ error }}</p>
+                </div>
+            {% endif %}
+            {% if success %}
+                <div class="alert alert-success">
+                    <p>mail ids successfully added.</p>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+    <div class="row top-buffer">
+        <form action="{% url 'allowedmails' %}" method="POST">
+        {% csrf_token %}
+            <div class="col-lg-11">
+                <input type="text" class="form-control" autocomplete="off" cols="40" id="id_maillist" name="maillist" placeholder="list of mail ids in form: [&quot;mail id&quot;,....]" rows="5" value="{{ jsonmaillist }}" >
+            </div>
+            <div class="col-lg-1">
+                <input type="submit" value="Add" class="btn btn-success">
+            </div>
+        </form>
+    </div>
+    <div class="row top-buffer">
+        <div class="col-lg-12">
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th>sno</th>
+                        <th>mailids</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for allowedmail in allowedmails %}
+                        <tr>
+                            <td>{{ forloop.counter }}</td>
+                            <td>{{ allowedmail.mailid }}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}

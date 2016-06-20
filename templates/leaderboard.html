@@ -1,0 +1,120 @@
+{% extends "base.html" %}
+
+{% block title %}Leaderboard{% endblock %}
+
+{% load staticfiles %}
+
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="col-lg-12">
+            <h1>Leaderboard</h1>
+        </div>
+    </div>
+    <div class="row top-buffer">
+        <ul class="nav nav-tabs">
+            {% if platform == "spoj" %}
+                <li class="active"><a href="#" style="color:black">Spoj</a></li>
+            {% else %}
+                <li><a href="{% url 'leaderboard' %}?platform=spoj" style="color:black">Spoj</a></li>
+            {% endif %}
+            {% if platform == "codechef" %}
+                <li class="active"><a href="#" style="color:black">Codechef</a></li>
+            {% else %}
+                <li><a href="{% url 'leaderboard' %}?platform=codechef" style="color:black">Codechef</a></li>
+            {% endif %}
+            {% if platform == "hackerrank" %}
+                <li class="active"><a href="#" style="color:black">Hackerrank</a></li>
+            {% else %}
+                <li><a href="{% url 'leaderboard' %}?platform=hackerrank" style="color:black">Hackerrank</a></li>
+            {% endif %}
+            {% if platform == "topcoder" %}
+                <li class="active"><a href="#" style="color:black">Topcoder</a></li>
+            {% else %}
+                <li><a href="{% url 'leaderboard' %}?platform=topcoder" style="color:black">Topcoder</a></li>
+            {% endif %}
+            {% if platform == "codeforces" %}
+                <li class="active"><a href="#" style="color:black">Codeforces</a></li>
+            {% else %}
+                <li><a href="{% url 'leaderboard' %}?platform=codeforces" style="color:black">Codeforces</a></li>
+            {% endif %}
+            {% if platform == "interviewbit" %}
+                <li class="active"><a href="#" style="color:black">Interviewbit</a></li>
+            {% else %}
+                <li><a href="{% url 'leaderboard' %}?platform=interviewbit" style="color:black">Interviewbit</a></li>
+            {% endif %}
+            {% if platform == "geeksforgeeks" %}
+                <li class="active"><a href="#" style="color:black">Geeksforgeeks</a></li>
+            {% else %}
+                <li><a href="{% url 'leaderboard' %}?platform=geeksforgeeks" style="color:black">Geeksforgeeks</a></li>
+            {% endif %}
+            {% if platform == "codelabs" %}
+                <li class="active"><a href="#" style="color:black">Codelabs</a></li>
+            {% else %}
+                <li><a href="{% url 'leaderboard' %}?platform=codelabs" style="color:black">Codelabs</a></li>
+            {% endif %}
+        </ul>
+    </div>
+    <div class="row top-buffer">
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th>Rank</th>
+                    <th>handle</th>
+                    {% if platform == 'codechef' %}
+                        <th><a href="{% url 'leaderboard' %}?platform=codechef&codechefchallenge=long" style="color:black;text-decoration: none;">Rating(long)</a></th>
+                        <th><a href="{% url 'leaderboard' %}?platform=codechef&codechefchallenge=short" style="color:black;text-decoration: none;">Rating(short)</a></th>
+                        <th><a href="{% url 'leaderboard' %}?platform=codechef&codechefchallenge=ltime" style="color:black;text-decoration: none;">Rating(ltime)</a></th>
+                    {% elif platform == 'codeforces' %}
+                        <th><a href="{% url 'leaderboard' %}?platform=codeforces&ratingtype=current" style="color:black;text-decoration: none;">Rating(Current)</a></th>
+                        <th><a href="{% url 'leaderboard' %}?platform=codeforces&ratingtype=max" style="color:black;text-decoration: none;">Rating(Max)</a></th>
+                    {% elif platform == 'topcoder' %}
+                        <th><a href="{% url 'leaderboard' %}?platform=topcoder&ratingtype=current" style="color:black;text-decoration: none;">Rating(Current)</a></th>
+                        <th><a href="{% url 'leaderboard' %}?platform=topcoder&ratingtype=max" style="color:black;text-decoration: none;">Rating(Max)</a></th>
+                    {% else %}
+                        <th>Rating</th>
+                    {% endif %}
+                    <th>branch</th>
+                    <th>batch</th>
+                </tr>
+            </thead>
+            <tbody id="Container">
+                {% for luser in lusers %}
+                    <tr>
+                        <td>{{ luser.0 }}</td>
+                        <td><a href="{% url 'users' luser.1.username %}" style="color:black;z-index:1000">{{ luser.1.username }}</a></td>
+                        {% if platform == 'spoj' %}
+                            <td>{{ luser.1.customuser.spojrating }}</td>
+                        {% elif platform == 'codechef' %}
+                            <td>{{ luser.1.customuser.codecheflongrating }}</td>
+                            <td>{{ luser.1.customuser.codechefshortrating }}</td>
+                            <td>{{ luser.1.customuser.codechefltimerating }}</td>
+                        {% elif platform == 'codeforces' %}
+                            <td>{{ luser.1.customuser.codeforcesrating }}</td>
+                            <td>{{ luser.1.customuser.codeforcesmaxrating }}</td>
+                        {% elif platform == 'hackerrank' %}
+                            <td>{{ luser.1.customuser.hackerrankrating }}</td>
+                        {% elif platform == 'geeksforgeeks' %}
+                            <td>{{ luser.1.customuser.geeksforgeeksrating }}</td>
+                        {% elif platform == 'topcoder' %}
+                            <td>{{ luser.1.customuser.topcoderrating }}</td>
+                            <td>{{ luser.1.customuser.topcodermaxrating }}</td>
+                        {% elif platform == 'interviewbit' %}
+                            <td>{{ luser.1.customuser.interviewbitrating }}</td>
+                        {% elif platform == 'codelabs' %}
+                            <td>{{ luser.1.customuser.points }}</td>
+                        {% endif %}
+                        <td>{{ luser.1.customuser.branch }}</td>
+                        <td>{{ luser.1.customuser.batch }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+
+<!-- scripts -->
+<script src="{% static 'js/jquery.tablesorter.js' %}"></script>
+
+{% endblock %}

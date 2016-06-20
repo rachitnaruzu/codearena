@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+
+{% block title %}Site Settings{% endblock %}
+
+{% block content %}
+<section id="services" class="services-section">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6">
+                <h1>Site Settings</h1>
+                <div class="top-buffer" >
+                    <form class="form-horizontal" action="{% url 'sitesettings' %}" method="POST">
+                    {% csrf_token %} 
+                        {% for field in form %}
+                            <div class="form-group">
+                                <div class="col-sm-3">
+                                    <p>{{ field.label }}: </p>
+                                </div>
+                                <div class="col-md-9">
+                                    <div class="switch">
+                                      {{ field }}
+                                      <label for="{{ field.auto_id }}"></label>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endfor %}
+                        <div class="controls">
+                            <button class="btn btn-success">Save</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+
+{% block title %}{{ problem.code}}-{{ problem.platform }}{% endblock %}
+
+{% block content %}
+<div class="container top-buffer">
+    <div class="row">
+        <div class="col-md-4"><h2>{{ problem.platform }}</h2></div>
+        <div class="col-md-2"><h2>{{ problem.code }}</h2></div>
+        <div class="col-md-2 col-md-offset-3 top-buffer">
+            {% if problem.platform == 'hackerrank' %}
+                <a href="https://www.hackerrank.com/challenges/{{ problem.code }}" class="btn btn-primary" role="button" target="_blank">Solve this problem</a>
+            {% else %}
+                <a href="{{ problem.url }}" class="btn btn-primary" role="button" target="_blank">Solve this problem</a>
+            {% endif %}
+        </div>
+    </div>
+    <div class="row">
+        {% if currentuser in users %}
+            <div class="col-md-2"><h2><span class="glyphicon glyphicon-ok-sign"></span></h2></div>
+        {% else %}
+            <div class="col-md-2"></div>
+        {% endif %}
+    </div>
+    <div class="row top-buffer">
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th>Serial No.</th>
+                    <th>Username</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for user in users %}
+                    <tr>
+                        <td>{{ forloop.counter }}</td>
+                        <td>{{ user.username }}</td>
+                        {% if currentuser == user %}
+                            <td><span class="glyphicon glyphicon-hand-left"></span></td>
+                        {% else %}
+                            <td></td>
+                        {% endif %} 
+                        <td><a href="{% url 'users' user.username %}" style="color:black;z-index:1000"><span class="glyphicon glyphicon-new-window"></span></a></td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

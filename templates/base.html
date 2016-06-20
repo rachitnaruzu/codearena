@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html>
+    <head>
+	    <meta charset="utf-8">
+	    <meta name="viewport" content="width=device-width, initial-scale=1">
+	    <title>{% block title %}{% endblock %}</title>
+	    <script  src="https://code.jquery.com/jquery-2.2.0.min.js"> </script>
+	    <script>
+            $(document).ready(function () {
+                $(".clickable-row").click(function () {
+                    window.document.location = $(this).data("href");
+                });
+            });
+        </script>
+        <!--script>
+            Put your google analytics scriot here
+        </script-->
+	
+    
+	    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+
+	    
+	    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css" integrity="sha384-fLW2N01lMqjakBkx3l/M9EahuwpSfeNvV63J5ezn3uZzapT0u7EYsXMjQV+0En5r" crossorigin="anonymous">
+
+	    
+	    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+
+	    {% load staticfiles %}
+	    <link rel="stylesheet" href="{% static 'css/mystyle.css' %}">
+	    {% if request.user.is_authenticated %}
+	        <script src="{% static 'js/search.js' %}"></script>
+	    {% endif %}    
+    </head>
+    <body>
+	    <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+	        <div class="container">
+		        <div class="navbar-header">
+		            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+		                <span class="icon-bar"></span>
+		                <span class="icon-bar"></span>
+		                <span class="icon-bar"></span>
+		            </button>
+		            <a class="navbar-brand" href="{% url 'home' %}">CodeLabs</a>
+		        </div>
+		        <div class="collapse navbar-collapse">
+		            <ul class="nav navbar-nav">
+                        {% if request.user.is_authenticated %}
+                            <li><a href="{% url 'allproblems' %}">Problems</a></li>
+                            <li><a href="{% url 'calendar' %}">Calendar</a></li>
+                            <!--li><a href="{# % url 'contests' % #}">Contests</a></li-->
+                            {% if DISCOURSE_FLAG %}
+                                <li><a href="{{ DISCOURSE_URL }}" target="_blank">Community</a></li>
+                            {% endif %}
+                            <!--li><a href="<COMMUNITY_URL>" target="_blank">Community</a></li-->
+                            <li><a href="{% url 'leaderboard' %}" >Leaderboard</a></li>
+                        {% endif %}
+		            </ul>
+		            <ul class="nav navbar-nav navbar-right" >
+		                {% if request.user.is_authenticated %}
+		                    <li>  
+                                
+                                    <div class="input-group ui-widget search">
+                                        <input type="text" id="username_search_box" name="handle" class="form-control ui-autocomplete-input" placeholder="Search handle" autocomplete="off">
+                                        <div id="username_search_res">
+                                            <ul class="search_res">
+                                            </ul>
+                                        </div>
+                                    </div>
+                                
+                            </li>
+                            {% if perms.codelabs.powers %}
+                                <li class="dropdown">
+                                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                                            Admin
+                                        <span class="caret"></span>
+                                    </a>
+                                    <ul class="dropdown-menu">
+                                        {% if perms.codelabs.add_problem %}
+                                            <li><a href="{% url 'addproblem' %}">Add Problem</a></li>
+                                        {% endif %}
+                                        {% if perms.codelabs.view_all %}
+                                            <li><a href="{% url 'allusers' %}">All Users</a></li>
+                                        {% endif %}
+                                        {% if perms.auth.add_user %}
+                                            <li><a href="{% url 'createuser' %}">Create User</a></li>
+                                        {% endif %}
+                                        {% if perms.codelabs.view_allowed %}
+                                            <li><a href="{% url 'allowedmails' %}">Allowed Mails</a></li>
+                                        {% endif %}
+                                        {% if perms.codelabs.send_mail %}
+                                            <li><a href="{% url 'sendmail' %}">Send Mail</a></li>
+                                        {% endif %}
+                                        {% if perms.codelabs.change_setting %}
+                                            <li><a href="{% url 'sitesettings' %}">Site Settings</a></li>
+                                        {% endif %}
+                                    </ul>
+                                </li>
+                            {% endif %}
+                            <li class="dropdown">
+                                <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                                    <span class = "glyphicon glyphicon-user"></span>
+                                        {{ request.user.username }}
+                                    <span class="caret"></span>
+                                </a>
+                                <ul class="dropdown-menu">
+                                    <li><a href="{% url 'users' request.user.username %}">My Profile</a></li>
+                                    <li><a href="{% url 'edit' %}">Edit Profile</a></li>
+                                    <li><a href="{% url 'changepassword' %}">Change Password</a></li>
+                                    <li><a href="{% url 'logout' %}">Logout</a></li>
+                                </ul>
+                            </li>
+		                {% else %}
+		                    <li><a href = "{% url 'signup' %}"><span class = "glyphicon glyphicon-user"></span> SignUp</a></li>
+			                <li><a href = "{% url 'login' %}"><span class = "glyphicon glyphicon-log-in"></span> Login</a></li>
+		                {% endif %}
+		            </ul>
+		        </div>
+	        </div>
+	    </nav>
+	    {% block content %}{% endblock %}
+    </body>
+</html>

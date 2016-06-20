@@ -1,0 +1,109 @@
+{% extends "base.html" %}
+
+{% block title %}Create User{% endblock %}
+
+{% block content %}
+<section id="services" class="services-section">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6">
+                <h1>&nbsp;Create User</h1>
+                {% if donotmatch %}
+                    <div class="col-sm-10 alert alert-warning">
+	                    <p>passwords do not match</p>
+	                </div>
+                {% endif %}
+                {% if alreadyexist %}
+                    <div class="col-sm-10 alert alert-warning">
+	                    <p>user with this handle already exists</p>
+	                </div>
+                {% endif %}
+                {% if success %}
+                    <div class="col-sm-10 alert alert-success">
+	                    <p>user created successfully and activated.</p>
+	                </div>
+                {% endif %}
+                {% if donotexist %}
+                    <div class="col-sm-10 alert alert-warning">
+	                    <p>emailid is not registered in our database. visit our faq.</p>
+	                </div>
+                {% endif %}
+                <form method="post" action="{% url 'createuser' %}">
+                {% csrf_token %}    
+                    {% for field in form %}
+                        <div class="form-group">
+                            <div class="col-md-4">
+                                {{ field.label }}:
+                            </div>
+                            <div class="col-md-8">
+                                {{ field }}
+                                <p class="help-block"></p>
+                            </div>
+                        </div>
+                        {% if field.errors %}
+                            <div class="col-sm-10 alert alert-warning">
+	                            {{ field.errors }}
+	                        </div>
+                        {% endif %}
+                    {% endfor %}
+                    <div class="col-md-8 col-md-offset-4" style="padding-left:15px">
+                        <input type="text" placeholder="generated password" class="form-control" id="generatedpassword">
+                    </div>
+                    <div class="col-md-8 col-md-offset-4" style="padding-left:15px">
+                        <a href="#" class="link-password" id="generate">Generate Password</a>
+                    </div>
+		            <div class="col-md-10 control-group">
+                        <div class="controls">
+                            <input type="submit" value="Create" class="btn btn-success">
+                        </div>
+                    </div>
+                </form>  
+            </div>
+        </div>
+    </div>
+</section>
+
+<script>
+    $.extend({
+      password: function (length) {
+        //var iteration = 0;
+        var password = "";
+        var charnum;
+        var choice;
+        for(var i=0;i<length;i++){
+            choice = Math.floor(Math.random() * 3);
+            switch(choice){
+                case(0): charnum = 48 + Math.floor(Math.random() * 10); break;
+                case(1): charnum = 65 + Math.floor(Math.random() * 26); break;
+                case(2): charnum = 97 + Math.floor(Math.random() * 26);
+            }
+            password += String.fromCharCode(charnum);
+        }
+        return password;
+      }
+    });
+    // prepare the form when the DOM is ready 
+    $(document).ready(function() {
+    	$('.link-password').click(function(e){
+    		password = $.password(12);
+			$('#id_password').val(password);
+			$('#id_confirmpassword').val(password);
+			$('#generatedpassword').val(password);
+    		e.preventDefault();
+    	});
+    	var randdeleter = function(e){
+    		$('#generatedpassword').val("");
+    		e.preventDefault();
+    	};
+    	$('#id_password').keyup(randdeleter);
+    	$('#id_confirmpassword').keyup(randdeleter);
+    	$('#generatedpassword').keyup(function(e){
+    		var genpass = $('#generatedpassword').val();
+    		$('#id_password').val(genpass);
+    		$('#id_confirmpassword').val(genpass);
+    		e.preventDefault();
+    	});
+    });
+</script>
+
+{% endblock %}

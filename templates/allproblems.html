@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+
+{% block title %}Problems{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="col-lg-12">
+            <h1>Problems</h1>
+        </div>
+    </div>
+    <div class="row top-buffer">
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th>Assignment No.</th>
+                    <th>Code</th>
+                    <th>Platform</th>
+                    <th><a href="{% url 'allproblems' %}?sort=points" style="color:black;z-index:1000">Points</a></th>
+                    <th><a href="{% url 'allproblems' %}?sort=solved" style="color:black;z-index:1000">Solved</a></th>
+                    <!--th><a href="{% url 'allproblems' %}?sort=1">Solved</a></th-->
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for problem in problems %}
+                    <tr>
+                        <td>{{ forloop.counter }}</td>
+                        {% if problem.platform == 'hackerrank' %}
+                            <td><a href="https://www.hackerrank.com/challenges/{{ problem.code }}"  style="color:black;z-index:1000" target="_blank">{{ problem.code }}</a></td>
+                        {% else %}
+                            <td><a href="{{ problem.url }}"  style="color:black;z-index:1000" target="_blank">{{ problem.code }}</a></td>
+                        {% endif %}
+                        <td>{{ problem.platform }}</td>
+                        <td>{{ problem.points }}</td>
+                        <td><a href="{% url 'problems' problem.platform problem.code %}" style="color:black;z-index:1000">{{ problem.solved }}</a></td>
+                        {% if problem in solvedproblems %}
+                            <td><span class="glyphicon glyphicon-ok"></span></td>
+                        {% else %}
+                            <td></td>
+                        {% endif %}
+                        {% if perms.codelabs.change_problem %}
+                            <td><a href="{% url 'editproblem' problem.platform problem.code %}" style="color:black;z-index:1000"><span class="glyphicon glyphicon-pencil"></span></a></td>
+                        {% endif %}
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

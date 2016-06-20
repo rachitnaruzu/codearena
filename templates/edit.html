@@ -1,0 +1,312 @@
+{% extends "base.html" %}
+
+{% block title %}Edit{% endblock %}
+
+{% block content %}
+<section id="services" class="services-section">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6">
+                <h1>Edit Profile</h1>
+                <div class="top-buffer" >
+                    <form class="form-horizontal" enctype="multipart/form-data" action="{% url 'edit' %}" method="POST">
+                    {% csrf_token %} 
+                        <div class="form-group">
+                            <div class="col-sm-3">
+                                <p>handle: </p>
+                            </div>
+                            <div class="col-md-9">
+                                <p>{{ user.username }}</p>
+                                <p class="help-block"></p>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-sm-3">
+                                <p>email: </p>
+                            </div>
+                            <div class="col-md-9">
+                                <p>{{ user.email }}</p>
+                                <p class="help-block"></p>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <div class="col-sm-3">
+                                <p>First Name: </p>
+                            </div>
+                            <div class="col-sm-9">
+                                {{ form.first_name }}
+                                <p class="help-block"></p>
+                            </div>
+                        </div>
+                        {% if form.first_name.errors %}
+                            <div class="col-sm-12 alert alert-warning">
+                                {{ form.first_name.errors }}
+                            </div>
+                        {% endif %}
+                        
+                        <div class="form-group">
+                            <div class="col-sm-3">
+                                <p>Last Name: </p>
+                            </div>
+                            <div class="col-sm-9">
+                                {{ form.last_name }}
+                                <p class="help-block"></p>
+                            </div>
+                        </div>
+                        {% if form.last_name.errors %}
+                            <div class="col-sm-12 alert alert-warning">
+                                {{ form.last_name.errors }}
+                            </div>
+                        {% endif %}
+                        
+                        <div class="form-group">
+                            <div class="col-sm-3">
+                                <p>rollno: </p>
+                            </div>
+                            <div class="col-sm-9">
+                                {{ form.rollno }}
+                                <p class="help-block"></p>
+                            </div>
+                        </div>
+                        {% if form.rollno.errors %}
+                            <div class="col-sm-12 alert alert-warning">
+                                {{ form.rollno.errors }}
+                            </div>
+                        {% endif %}
+                        
+                        <div class="form-group">
+                            <div class="col-sm-3">
+                                <p>batch (passing year): </p>
+                            </div>
+                            <div class="col-sm-9">
+                                {{ form.batch }}
+                                <p class="help-block"></p>
+                            </div>
+                        </div>
+                        {% if form.batch.errors %}
+                            <div class="col-sm-12 alert alert-warning">
+                                {{ form.batch.errors }}
+                            </div>
+                        {% endif %}
+                        
+                        <div class="form-group">
+                            <div class="col-sm-3">
+                                <p>branch: </p>
+                            </div>
+                            <div class="col-sm-9">
+                                {{ form.branch }}
+                                <p class="help-block"></p>
+                            </div>
+                        </div>
+                        {% if form.branch.errors %}
+                            <div class="col-sm-12 alert alert-warning">
+                                {{ form.branch.errors }}
+                            </div>
+                        {% endif %}
+                        
+                        <div class="form-group">
+                            <div class="col-sm-3">
+                                <p>pic: </p>
+                            </div>
+                            <div class="col-sm-3">
+                                <div class="switch">
+                                  {{ form.picflag }}
+                                  <label for="{{ form.picflag.auto_id }}"></label>
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                {{ form.pic }}
+                            </div>
+                        </div>
+                        {% if form.pic.errors %}
+                            <div class="col-sm-12 alert alert-warning">
+                                {{ form.pic.errors }}
+                            </div>
+                        {% endif %}
+                        
+                        <div class="form-group">
+                            <div class="col-sm-3">
+                                <p>spojhandle: </p>
+                            </div>
+                            <div class="col-sm-7">
+                                {{ form.spojhandle }}
+                                <p class="help-block"></p>
+                            </div>
+                            {% if form.spojhandle.errors %}
+                                <div class="col-sm-12 alert alert-warning">
+                                    {{ form.spojhandle.errors }}
+                                </div>
+                            {% else %}
+                                <div class="col-sm-2">
+                                    {% if spojflag == 1 %}    
+                                        <h5><span class="glyphicon glyphicon-ok-sign"></span></h5>
+                                    {% elif spojflag == 2 %}
+                                        <p style="text-decoration-color: gray">verification awaited..</p>
+                                    {% else %}
+                                        <h5><span class="glyphicon glyphicon-remove-sign"></span></h5>
+                                    {% endif %}
+                                </div>
+                            {% endif %}
+                        </div>
+                        
+                        <div class="form-group">
+                            <div class="col-sm-3">
+                                <p>hackerrankhandle: </p>
+                            </div>
+                            <div class="col-sm-7">
+                                {{ form.hackerrankhandle }}
+                                <p class="help-block"></p>
+                            </div>
+                            {% if form.hackerrankhandle.errors %}
+                                <div class="col-sm-12 alert alert-warning">
+                                    {{ form.hackerrankhandle.errors }}
+                                </div>
+                            {% else %}
+                                <div class="col-sm-2">
+                                    {% if hackerrankflag == 1 %}    
+                                        <h5><span class="glyphicon glyphicon-ok-sign"></span></h5>
+                                    {% elif hackerrankflag == 2 %}
+                                        <p style="text-decoration-color: gray">verification awaited..</p>
+                                    {% else %}
+                                        <h5><span class="glyphicon glyphicon-remove-sign"></span></h5>
+                                    {% endif %}
+                                </div>
+                            {% endif %}
+                        </div>
+                        
+                        <div class="form-group">
+                            <div class="col-sm-3">
+                                <p>codechefhandle: </p>
+                            </div>
+                            <div class="col-sm-7">
+                                {{ form.codechefhandle }}
+                                <p class="help-block"></p>
+                            </div>
+                            {% if form.spojhandle.errors %}
+                                <div class="col-sm-12 alert alert-warning">
+                                    {{ form.codechefhandle.errors }}
+                                </div>
+                            {% else %}
+                                <div class="col-sm-2">
+                                    {% if codechefflag == 1 %}    
+                                        <h5><span class="glyphicon glyphicon-ok-sign"></span></h5>
+                                    {% elif codechefflag == 2 %}
+                                        <p style="text-decoration-color: gray">verification awaited..</p>
+                                    {% else %}
+                                        <h5><span class="glyphicon glyphicon-remove-sign"></span></h5>
+                                    {% endif %}
+                                </div>
+                            {% endif %}
+                        </div>
+                        
+                        <div class="form-group">
+                            <div class="col-sm-3">
+                                <p>geeksforgeekshandle: </p>
+                            </div>
+                            <div class="col-sm-7">
+                                {{ form.geeksforgeekshandle }}
+                                <p class="help-block"></p>
+                            </div>
+                            {% if form.geeksforgeekshandle.errors %}
+                                <div class="col-sm-12 alert alert-warning">
+                                    {{ form.geeksforgeekshandle.errors }}
+                                </div>
+                            {% else %}
+                                <div class="col-sm-2">
+                                    {% if geeksforgeeksflag == 1 %}    
+                                        <h5><span class="glyphicon glyphicon-ok-sign"></span></h5>
+                                    {% elif geeksforgeeksflag == 2 %}
+                                        <p style="text-decoration-color: gray">verification awaited..</p>
+                                    {% else %}
+                                        <h5><span class="glyphicon glyphicon-remove-sign"></span></h5>
+                                    {% endif %}
+                                </div>
+                            {% endif %}
+                        </div>
+                        
+                        <div class="form-group">
+                            <div class="col-sm-3">
+                                <p>topcoderhandle: </p>
+                            </div>
+                            <div class="col-sm-7">
+                                {{ form.topcoderhandle }}
+                                <p class="help-block"></p>
+                            </div>
+                            {% if form.topcoderhandle.errors %}
+                                <div class="col-sm-12 alert alert-warning">
+                                    {{ form.topcoderhandle.errors }}
+                                </div>
+                            {% else %}
+                                <div class="col-sm-2">
+                                    {% if topcoderflag == 1 %}    
+                                        <h5><span class="glyphicon glyphicon-ok-sign"></span></h5>
+                                    {% elif topcoderflag == 2 %}
+                                        <p style="text-decoration-color: gray">verification awaited..</p>
+                                    {% else %}
+                                        <h5><span class="glyphicon glyphicon-remove-sign"></span></h5>
+                                    {% endif %}
+                                </div>
+                            {% endif %}
+                        </div>
+                        
+                        <div class="form-group">
+                            <div class="col-sm-3">
+                                <p>codeforceshandle: </p>
+                            </div>
+                            <div class="col-sm-7">
+                                {{ form.codeforceshandle }}
+                                <p class="help-block"></p>
+                            </div>
+                            {% if form.codeforceshandle.errors %}
+                                <div class="col-sm-12 alert alert-warning">
+                                    {{ form.codeforceshandle.errors }}
+                                </div>
+                            {% else %}
+                                <div class="col-sm-2">
+                                    {% if codeforcesflag == 1 %}    
+                                        <h5><span class="glyphicon glyphicon-ok-sign"></span></h5>
+                                    {% elif codeforcesflag == 2 %}
+                                        <p style="text-decoration-color: gray">verification awaited..</p>
+                                    {% else %}
+                                        <h5><span class="glyphicon glyphicon-remove-sign"></span></h5>
+                                    {% endif %}
+                                </div>
+                            {% endif %}
+                        </div>
+                        
+                        <div class="form-group">
+                            <div class="col-sm-3">
+                                <p>interviewbithandle: </p>
+                            </div>
+                            <div class="col-sm-7">
+                                {{ form.interviewbithandle }}
+                                <p class="help-block"></p>
+                            </div>
+                            {% if form.interviewbithandle.errors %}
+                                <div class="col-sm-12 alert alert-warning">
+                                    {{ form.interviewbithandle.errors }}
+                                </div>
+                            {% else %}
+                                <div class="col-sm-2">
+                                    {% if interviewbitflag == 1 %}    
+                                        <h5><span class="glyphicon glyphicon-ok-sign"></span></h5>
+                                    {% elif interviewbitflag == 2 %}
+                                        <p style="text-decoration-color: gray">verification awaited..</p>
+                                    {% else %}
+                                        <h5><span class="glyphicon glyphicon-remove-sign"></span></h5>
+                                    {% endif %}
+                                </div>
+                            {% endif %}
+                        </div>
+                        
+                        <div class="controls">
+                            <button class="btn btn-success">Save</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

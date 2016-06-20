@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% block title %}CodeArena{% endblock %}
+
+{% load staticfiles %}
+
+{% block content %}
+
+
+<section id="intro" class="intro-section">
+    
+        
+        <div id="particles-js" style="position: absolute; width:100%; height:87%; z-index: -1;"></div>
+        <div class="col-md-4 col-md-offset-4" style="position: absolute; z-index: 1; top:40%; text-align: center">
+            <h1>Welcome to CodeArena!</h1>
+            <h4><strong>Collaborate.Code.Discuss</strong></h4>
+        </div>
+      
+</section>
+
+<!-- scripts -->
+<script src="{% static 'js/particle/particles.js' %}"></script>
+<script src="{% static 'js/particle/app/app.js' %}"></script>
+
+{% endblock %}

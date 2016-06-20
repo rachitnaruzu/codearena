@@ -1,0 +1,134 @@
+{% extends "base.html" %}
+
+{% block title %}{{ user.username }}{% endblock %}
+
+{% block content %}
+<div class="container top-buffer">
+	<div class="row">
+		<div class="col-md-4 user-info">
+		    {% if user.customuser.picflag == 1 %}
+		        <img class="user-icon" src="{% url 'profilepic' user.username %}" >
+		    {% else %}
+		        <img class="user-icon" src="/static/img/usr-icon.png">
+		    {% endif %}
+	        <h3> {{ user.first_name }} {{ user.last_name }}</h3>
+	        <p> @{{ user.username }} </p>
+	        <p>Problems Solved: {{ user.problem_set.count }}</p>
+	        {% if user.customuser.spojflag == 1 %}
+	            <a href = "http://www.spoj.com/users/{{ user.customuser.spojhandle }}/" target="_blank">
+	                <img class = "widgets" src = "/static/img/spoj.png">
+	            </a>
+	        {% endif %}
+	        {% if user.customuser.hackerrankflag == 1 %}
+	            <a href = "http://www.hackerrank.com/{{ user.customuser.hackerrankhandle }}/" target="_blank">
+	                <img class = "widgets" src = "/static/img/hackerrank.png">
+	            </a>
+	        {% endif %}
+	        {% if user.customuser.codechefflag == 1 %}
+	            <a href = "http://www.codechef.com/users/{{ user.customuser.codechefhandle }}/" target="_blank">
+	                <img class = "widgets" src = "/static/img/cc.jpg">
+	            </a>
+	        {% endif %}
+	        {% if user.customuser.topcoderflag == 1 %}
+	            <a href = "https://www.topcoder.com/members/{{ user.customuser.topcoderhandle }}/" target="_blank">
+	                <img class = "widgets" src = "/static/img/tc.png">
+	            </a>
+	        {% endif %}
+	        {% if user.customuser.codeforcesflag == 1 %}
+	            <a href = "http://codeforces.com/profile/{{ user.customuser.codeforceshandle }}" target="_blank">
+	                <img class = "widgets" src = "/static/img/cf.png">
+	            </a>
+	        {% endif %}
+	        {% if user.customuser.geeksforgeeksflag == 1 %}
+	            <a href = "http://www.practice.geeksforgeeks.org/user-profile.php?user={{ user.customuser.geeksforgeekshandle }}" target="_blank">
+	                <img class = "widgets" src = "/static/img/gfg.JPG">
+	            </a>
+	        {% endif %}
+	        {% if user.customuser.interviewbitflag == 1 %}
+	            <a href = "https://www.interviewbit.com/profile/{{ user.customuser.interviewbithandle }}" target="_blank">
+	                <img class = "widgets" src = "/static/img/ibit.jpg">
+	            </a>
+	        {% endif %}
+	        <div class="row top-buffer">
+    	        {% if user.customuser.spojflag == 1 %}
+    	            <div class="col-md-6">spoj rating:</div>
+    	            <div class="col-md-6">{{ user.customuser.spojrating }}</div>
+    	        {% endif %}
+    	        {% if user.customuser.hackerrankflag == 1 %}
+    	            <div class="col-md-6">hackerrank rating:</div>
+    	            <div class="col-md-6">{{ user.customuser.hackerrankrating }}</div>
+    	        {% endif %}
+    	        {% if user.customuser.codechefflag == 1 %}
+    	            <div class="col-md-6">codechef long rating:</div>
+    	            <div class="col-md-6">{{ user.customuser.codecheflongrating }}</div>
+    	            <div class="col-md-6">codechef short rating:</div>
+    	            <div class="col-md-6">{{ user.customuser.codechefshortrating }}</div>
+    	            <div class="col-md-6">codechef ltime rating:</div>
+    	            <div class="col-md-6">{{ user.customuser.codechefltimerating }}</div>
+    	        {% endif %}
+    	        {% if user.customuser.topcoderflag == 1 %}
+    	            <div class="col-md-6">topcoder rating:</div>
+    	            <div class="col-md-6">{{ user.customuser.topcoderrating }}</div>
+    	            <div class="col-md-6">topcoder maxrating:</div>
+    	            <div class="col-md-6">{{ user.customuser.topcodermaxrating }}</div>
+    	        {% endif %}
+    	        {% if user.customuser.codeforcesflag == 1 %}
+    	            <div class="col-md-6">codeforces rating:</div>
+    	            <div class="col-md-6">{{ user.customuser.codeforcesrating }}</div>
+    	            <div class="col-md-6">codeforces maxRating:</div>
+    	            <div class="col-md-6">{{ user.customuser.codeforcesmaxrating }}</div>
+    	        {% endif %}
+    	        {% if user.customuser.interviewbitflag == 1 %}
+    	            <div class="col-md-6">interviewbit rating:</div>
+    	            <div class="col-md-6">{{ user.customuser.interviewbitrating }}</div>
+    	        {% endif %}
+    	        {% if user.customuser.geeksforgeeksflag == 1 %}
+    	            <div class="col-md-6">geeksforgeeks rating:</div>
+    	            <div class="col-md-6">{{ user.customuser.geeksforgeeksrating }}</div>
+    	        {% endif %}
+    	        <div class="col-md-6">codelabs rating:</div>
+    	        <div class="col-md-6">{{ user.customuser.points }}</div>
+	        </div>
+		</div>
+		<div class = "col-md-8 problems-solved">
+		    <div class = "row">
+		        <div class = "col-md-12">
+		            <h3>List of Solved Problems</h3>
+		        </div>
+		    </div>
+		    <div class = "panel panel-default top-buffer">
+		        <div class = "panel-heading"><h2>Spoj</h2></div>
+		        <div class = "panel-body">
+		            {% for problem in spojproblems %}
+		                <a class = "user-problems" href = "{% url 'problems' problem.platform problem.code %}"><h4>{{ problem.code }}</h4></a>
+		            {% endfor %}
+		        </div>
+		    </div>
+		    <div class = "panel panel-default top-buffer">
+		        <div class = "panel-heading"><h2>Hackerrank</h2></div>
+		        <div class = "panel-body">
+		            {% for problem in hackerrankproblems %}
+		                <a class = "user-problems" href = "{% url 'problems' problem.platform problem.code %}"><h4>{{ problem.code }}</h4></a>
+		            {% endfor %}
+		        </div>
+		    </div>
+		    <div class = "panel panel-default top-buffer">
+		        <div class = "panel-heading"><h2>Codechef</h2></div>
+		        <div class = "panel-body">
+		            {% for problem in codechefproblems %}
+		                <a class = "user-problems" href = "{% url 'problems' problem.platform problem.code %}"><h4>{{ problem.code }}</h4></a>
+		            {% endfor %}
+		        </div>
+		    </div>
+		    <div class = "panel panel-default top-buffer">
+		        <div class = "panel-heading"><h2>Geeksforgeeks</h2></div>
+		        <div class = "panel-body">
+		            {% for problem in geeksforgeeksproblems %}
+		                <a class = "user-problems" href = "{% url 'problems' problem.platform problem.code %}"><h4>{{ problem.code }}</h4></a>
+		            {% endfor %}
+		        </div>
+		    </div>
+	    </div>
+    </div>
+</div>
+{% endblock %}

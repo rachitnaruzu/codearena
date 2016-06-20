@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+
+{% block title %}Edit Problem{% endblock %}
+
+{% block content %}
+<section id="services" class="services-section">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6">
+                <h1>&nbsp;Edit Problem</h1>
+                {% if success %}
+                    <div class="col-sm-10 alert alert-success">
+	                    <p>problem updated successfully.</p>
+	                </div>
+                {% endif %}
+                <form method="post" action="{% url 'editproblem' problem.platform problem.code %}">
+                    <div class="form-group top-buffer">
+                        <div class="col-md-4">
+                            platform:
+                        </div>
+                        <div class="col-md-8">
+                            {{ problem.platform }}
+                        </div>
+                    </div>
+                    <div class="col-sm-10 top-buffer"></div>
+                    <div class="form-group top-buffer">
+                        <div class="col-md-4">
+                            code:
+                        </div>
+                        <div class="col-md-8">
+                            <a href="{{ problem.url }}"  style="color:black;z-index:1000" target="_blank">{{ problem.code }}</a>
+                        </div>
+                    </div>
+                    <div class="col-sm-10 top-buffer"></div>
+                {% csrf_token %}    
+                    {% for field in form %}
+                        <div class="form-group">
+                            <div class="col-md-4">
+                                {{ field.label }}:
+                            </div>
+                            <div class="col-md-8">
+                                {{ field }}
+                                <p class="help-block"></p>
+                            </div>
+                        </div>
+                        {% if field.errors %}
+                            <div class="col-sm-10 alert alert-warning">
+	                            {{ field.errors }}
+	                        </div>
+                        {% endif %}
+                    {% endfor %}
+                    <div class="col-md-10 control-group">
+                        <div class="col-sm-3" style="padding-left:0px"><button class="btn btn-success" name="save">Save</button></div>
+                        <div class="col-sm-7" style="padding-left:0px"><button class="btn btn-danger" name="delete" onclick="return confirm('Are you sure you want to delete this problem?');">Delete</button></div>
+                    </div>
+                </form>  
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
