@@ -2,19 +2,22 @@ CodeArena
 =========
 
 CodeArena is an open source platform, which can be used by universities/colleges to asses programming skills of students. As of now its main functionality depends on the webscraping of data from various online coding platforms (codechef, hackerrank, topcoder, interviewbit, geeksforgeeks) and to provide following features:
+
 - A single platform to display rankings of registered students based on their performance on online coding platforms.
 - There is also a section of Problem Set where admin can add a problem from above mentioned platforms and codearena will display the list of registered students who have solved that particular problem on the platform from where the problem has been taken. Points can also be alloted to individual problems.
 - Option to integrate with a Discourse Community using sso, which enables user to log in into the Discourse by just providing login credentials to codearena only.
 
 Installation
------------
+----------------
 
 **Note:** This installation procedure is meant for Ubuntu OS. Replace all the text inclosed with <> with actual values before executing the statements. Better execute the statements line by line rather than copy pasting the whole block. There are some settings in python files that are recommended to be comment out during testing, which you have to later uncomment during production use. You might have to replace all 'localhost' text with '0.0.0.0' if you are deploying it on digitalocean or on some other online server.
 
-**Installing postgres database**
+#### Step 1 : [Installing PostgreSQL database]
 
-we will use postgres database with codearena. The postgres installation procedure is taken from [this](https://www.digitalocean.com/community/tutorials/how-to-use-postgresql-with-your-django-application-on-ubuntu-14-04) link:
+We will use PostgreSQL database with codearena. The PostgreSQL installation procedure is taken from [this](https://www.digitalocean.com/community/tutorials/how-to-use-postgresql-with-your-django-application-on-ubuntu-14-04) link:
 
+    sudo apt-get update
+	sudo apt-get install postgresql postgresql-contrib
 	# switch user to postgres
 	sudo su - postgres
     psql
@@ -28,11 +31,11 @@ we will use postgres database with codearena. The postgres installation procedur
       \q
     exit
     
-**Setting up broker for celery**
+#### Step 2: [Installing broker for celery]
  
  	sudo apt-get install rabbitmq-server
     
-**setting up codearena platform**
+#### Step 3: [Setting up codearena platform]
 
     sudo cd /var
     sudo mkdir codearena
@@ -113,7 +116,7 @@ set the following variables:
 
 	server_name <CODEARENA_DOMAIN>; # without quotes
 	
-installing nginx:
+#### Step 4: [Setting up nginx]
 
     sudo apt-get install nginx
     
@@ -121,18 +124,20 @@ copy the files to specific locations:
 
     sudo cp /var/codearena/codearena_nginx.conf /etc/nginx/sites-available
     sudo cp /var/codearena/codearena_uwsgi.conf /etc/init
-    
-initialise nginx:
+
+#### Step 5: [Initialize Different Servers]    
+
+initialize nginx:
  
     sudo service nginx restart
     
-initialise uwsgi:
+initialize uwsgi:
 
     sudo cd /var/codearena
     sudo source venv/bin/activate
     sudo uwsgi --ini codearena_uwsgi.ini
     
-initialse celery:
+initialize celery:
 
     sudo addgroup celery
     sudo adduser celery celery
@@ -147,22 +152,24 @@ initialse celery:
     sudo chmod +x /etc/init.d/celeryd
     sudo /etc/init.d/celeryd start
     
-initialise webscraping job:
+initialize webscraping job:
 
     sudo chmod +x /var/codearena/codearena_webscrape
     sudo cp /var/codearena/codearena_webscrape /etc/cron.daily 
     
 Phew !! All done, now go to <CODEARENA_DOMAIN> and login using admin credentials.
 
-Installing discourse on same server as of CodeArena (Optional)
---------------------------------------------------------------
+### Installing discourse on same server as of CodeArena (Optional)
+
+\# skip this step if you have already installed Discourse.
+#### Step 1: [Initialize Discourse]
 
 Install discourse from [this](https://github.com/discourse/discourse/blob/master/docs/INSTALL-cloud.md) link.
 Use same EMAIL_SMTP_HOST values as that of codearena, when asked during the installation.
 
-open /var/codearena/discourse_App.yml:
+open /var/codearena/discourse_app.yml:
 
-    sudo vim /var/codearena/discourse_App.yml
+    sudo vim /var/codearena/discourse_app.yml
 
 set the following variables (copy them from /var/discourse/app.yml):
 
@@ -182,8 +189,7 @@ In terminal:
     
 Above procedure is taken from [this](https://meta.discourse.org/t/running-other-websites-on-the-same-machine-as-discourse/17247) link.
 
-Setting up Discourse sso (Optional)
------------------------------------
+#### Step 2: [Setting up Discourse SSO]
 
 Assuming that Discourse has been setup correctly, create admin user in discourse with same 
 handle as that of codearena admin, then log in to discourse.Go to USERS -> click on the admin user -> click 'Generate' button. This will generate <DISCOURSE_API_KEY>.Go to settings and set the followin variables 
