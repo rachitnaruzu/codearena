@@ -1,0 +1,4 @@
+#!/bin/bash
+
+/var/codearena/venv/bin/python /var/codearena/update.py
+

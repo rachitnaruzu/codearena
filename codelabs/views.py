@@ -120,7 +120,7 @@ def problem(request,platform,code):
 def profile_pic(request,handle):
     userarr = User.objects.filter(username=handle)
     if not userarr:
-        return HttpResponse(config.CODELABS_DOMAIN + '/static/img/usr-icon.png', content_type="image/png")
+        return HttpResponse(config.CODEARENA_DOMAIN + '/static/img/usr-icon.png', content_type="image/png")
     user = userarr[0]
     return HttpResponse(user.customuser.pic, content_type="image/png")
 
@@ -296,7 +296,7 @@ def discourse_login(request):
         userid = request.user.id
         handle = request.user.username
         name = request.user.first_name + ' ' + request.user.last_name
-        avatar_url = config.CODELABS_DOMAIN + '/profilepic/' + handle
+        avatar_url = config.CODEARENA_DOMAIN + '/profilepic/' + handle
         is_admin = 'true' if request.user.groups.all()[0].name == 'admin_group' else 'false'
         payload = request.GET['sso']
         sig = request.GET['sig']

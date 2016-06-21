@@ -7,7 +7,7 @@ from random import randint
 import requests as rq
 
 # Discourse Settings
-DISCOURSE_FLAG = True # set it to True to enable discourse linking through sso
+DISCOURSE_FLAG = False # set it to True to enable discourse linking through sso
 
 # No need to set below discourse variables if DISCOURSE_FLAG is set to False
 DISCOURSE_API_KEY = '<DISCOURSE_API_KEY>'
@@ -88,26 +88,26 @@ def generate_activation_key():
 
 def send_change_password_mail(passwordkey, toid, handle):
     subject = "Change Password"
-    link = CODELABS_DOMAIN + "/changepassword/?passwordkey=" + passwordkey
+    link = CODEARENA_DOMAIN + "/changepassword/?passwordkey=" + passwordkey
     content = (
             "Hello " + handle + ",<br>" 
             " Click on <a href=\"" + link + "\" target=\"_blank\">this link</a> to change your password. <br>"
             "<br>"
             "<br>"
             "<br>"
-            " Regards " + CODELABS_DOMAIN
+            " Regards " + CODEARENA_DOMAIN
         )
-    send_mail(subject, content, CODELABS_MAIL_ID, [toid])
+    send_mail(subject, content, CODEARENA_MAIL_ID, [toid])
     
 def send_activation_mail(handle, toid, activatekey):
     subject = "Activation Mail"
-    link = CODELABS_DOMAIN + "/activate/?activatekey=" + activatekey
+    link = CODEARENA_DOMAIN + "/activate/?activatekey=" + activatekey
     content = ( 
                 "Hello " + handle + ",<br>" 
                 " Click on <a href=\"" + link + "\" target=\"_blank\">this link</a> link to activate your account. <br>"
                 "<br>"
                 "<br>"
                 "<br>"
-                " Regards " + CODELABS_DOMAIN
+                " Regards " + CODEARENA_DOMAIN
             )
-    send_mail(subject, content, CODELABS_MAIL_ID, [toid])
+    send_mail(subject, content, CODEARENA_MAIL_ID, [toid])

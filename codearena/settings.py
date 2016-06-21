@@ -9,7 +9,7 @@ SECRET_KEY = '<SECRET_KEY>'
 
 
 #celery settings
-BROKER_URL = '<BROKER_URL>'
+BROKER_URL = 'amqp://guest@localhost//'
 CELERY_ACCEPT_CONTENT = ['json']
 CELERY_TASK_SERIALIZER = 'json'
 CELERY_RESULT_SERIALIZER = 'json'
@@ -85,8 +85,12 @@ WSGI_APPLICATION = 'codearena.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'codearena',
+        'USER': 'myprojectuser',
+        'PASSWORD': 'password',
+        'HOST': 'localhost',
+        'PORT': ''
     }
 }
 

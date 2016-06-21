@@ -7,12 +7,13 @@ from codelabs.models import Setting, Customuser, Dummy, AllowedMail
 from django.contrib.auth.models import User, Permission, Group
 from django.contrib.contenttypes.models import ContentType
 
-first_name = ''
-last_name = ''
-handle = ''
-email = ''
-rollno = ''
-password = ''
+# first user to register will be the admin
+first_name = '<first_name>'
+last_name = '<last_name>'
+handle = '<handle>'
+email = '<exampleid@email.com>'
+rollno = '<rollno>'
+password = '<password>'
 
 student_group = Group.objects.filter(name = 'student_group')
 if(len(student_group) != 0): student_group[0].delete()
