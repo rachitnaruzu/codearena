@@ -1,7 +1,7 @@
 CodeArena
 =========
 
-CodeArena is an open source platform, which can be used by universities/colleges to asses programming skills of students. As of now its main functionality depends on the webscraping of data from various online coding platforms (codechef, hackerrank, topcoder, interviewbit, geeksforgeeks) and to provide following features:
+CodeArena is an open source platform, which can be used by universities/colleges to assess programming skills of students. As of now its main functionality depends on the webscraping of data from various online coding platforms (codechef, hackerrank, topcoder, interviewbit, geeksforgeeks) and to provide following features:
 
 - A single platform to display rankings of registered students based on their performance on online coding platforms.
 - There is also a section of Problem Set where admin can add a problem from above mentioned platforms and codearena will display the list of registered students who have solved that particular problem on the platform from where the problem has been taken. Points can also be alloted to individual problems.
