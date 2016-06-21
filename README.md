@@ -159,13 +159,12 @@ initialize webscraping job:
     
 Phew !! All done, now go to <CODEARENA_DOMAIN> and login using admin credentials.
 
-### Installing discourse on same server as of CodeArena (Optional)
+### Setting Up Discourse (Optional)
 
-\# skip this step if you have already installed Discourse.
-#### Step 1: [Initialize Discourse]
+#### Step 1: [Install Discourse on same server as of CodeArena]
+\# skip this step if you have already installed Discourse on another server. 
 
-Install discourse from [this](https://github.com/discourse/discourse/blob/master/docs/INSTALL-cloud.md) link.
-Use same EMAIL_SMTP_HOST values as that of codearena, when asked during the installation.
+Install discourse from [this](https://github.com/discourse/discourse/blob/master/docs/INSTALL-cloud.md) link. Use same EMAIL_SMTP_HOST values as that of codearena, when asked during the installation.
 
 open /var/codearena/discourse_app.yml:
 
