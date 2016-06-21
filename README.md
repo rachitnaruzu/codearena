@@ -38,8 +38,6 @@ We will use PostgreSQL database with codearena. The PostgreSQL installation proc
 #### Step 3: [Setting up codearena platform]
 
     sudo cd /var
-    sudo mkdir codearena
-    sudo cd codearena
     sudo git clone https://github.com/rachitnaruzu/codearena.git
     
 open /var/codearena/codelabs/config.py:
