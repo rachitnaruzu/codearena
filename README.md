@@ -99,12 +99,19 @@ set the following variables:
 In terminal:
     
     sudo cd /var/codearena
+    sudo apt-get install libpq-dev python-dev
+    # create virtualenv with python3
     sudo virtualenv venv -p python3
+    # activate the virtualenv
     sudo source venv/bin/activate
+    pip3 install --upgrade pip 
     sudo pip3 install -r requirements.txt
+    sudo python manage.py collectstatic --noinput
     sudo python manage.py makemigrations
     sudo python manage.py migrate
     sudo python seed.py
+    # deactivate virtualenv
+    deactivate
     
 open /var/codearena/codearena.conf:
     
