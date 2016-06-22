@@ -60,7 +60,7 @@ change_setting = Permission.objects.get(codename = 'change_setting')
 view_all = Permission.objects.create(
     codename='view_all',
     name='can view all',
-    content_type=ContentType.objects.get_for_model(User)
+    content_type=ContentType.objects.get_for_model(Dummy)
 )
 powers = Permission.objects.create(
     codename='powers',

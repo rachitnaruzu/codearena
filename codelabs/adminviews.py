@@ -293,7 +293,7 @@ def adminedituser(request, handle):
     user.customuser.topcoderflag = topcoderflag
     user.customuser.codeforceshandle = adminedituserform.cleaned_data['codeforceshandle']
     user.customuser.codeforcesflag = codeforcesflag
-    user.customuser.interviewbithandle = editform.cleaned_data['interviewbithandle']
+    user.customuser.interviewbithandle = adminedituserform.cleaned_data['interviewbithandle']
     user.customuser.interviewbitflag = interviewbitflag
     user.save()
     user.customuser.save()

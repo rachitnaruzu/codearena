@@ -210,6 +210,19 @@ For custom radio buutons and checkboxes
 }
 
 
+.navbar-icon {
+    height: 100%;
+    width:100%;
+    margin-top: 10px;
+}
+
+.navbar-icon img {
+    height:30px;
+    width: 30px;
+}
+
+
+
 /*.checkbox-custom:focus + .checkbox-custom-label, .radio-custom:focus + .radio-custom-label {
   outline:  #ddd; 
 }*/
