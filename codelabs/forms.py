@@ -184,18 +184,11 @@ class Editform(forms.Form):
                 ]
             )
     rollno = forms.CharField(
-                min_length=6,
+                min_length=3,
                 max_length=254,
                 widget = forms.TextInput(
                     attrs={'class':'form-control','placeholder':'rollno'}
-                ),
-                validators=[
-                        RegexValidator(
-                                regex='^[a-zA-Z]+/[0-9]+/[0-9]+$',
-                                message='invalid rollno (ex: BE/25142/11 or be/25142/12)',
-                                code='invalid_rollno'
-                            )
-                    ]
+                )
             )
             
     batch = forms.ChoiceField(
@@ -387,18 +380,11 @@ class Signupform(forms.Form):
                 ]
             )
     rollno = forms.CharField(
-                min_length=6,
+                min_length=3,
                 max_length=254,
                 widget = forms.TextInput(
                     attrs={'class':'form-control','placeholder':'rollno'}
-                ),
-                validators=[
-                        RegexValidator(
-                                regex='^[a-zA-Z]+/[0-9]+/[0-9]+$',
-                                message='invalid rollno (ex: BE/25142/11 or be/25142/12)',
-                                code='invalid_rollno'
-                            )
-                    ]
+                )
             )
             
     batch = forms.ChoiceField(
@@ -496,18 +482,11 @@ class AdminEditUserForm(forms.Form):
                 ]
             )
     rollno = forms.CharField(
-                min_length=6,
+                min_length=3,
                 max_length=254,
                 widget = forms.TextInput(
                     attrs={'class':'form-control','placeholder':'rollno'}
-                ),
-                validators=[
-                        RegexValidator(
-                                regex='^[a-zA-Z]+/[0-9]+/[0-9]+$',
-                                message='invalid rollno (ex: BE/25142/11 or be/25142/12)',
-                                code='invalid_rollno'
-                            )
-                    ]
+                )
             )
             
     batch = forms.ChoiceField(
