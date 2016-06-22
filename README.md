@@ -6,6 +6,8 @@ CodeArena is an open source platform, which can be used by universities/colleges
 - A single platform to display rankings of registered students based on their performance on online coding platforms.
 - There is also a section of Problem Set where admin can add a problem from above mentioned platforms and codearena will display the list of registered students who have solved that particular problem on the platform from where the problem has been taken. Points can also be alloted to individual problems.
 - Option to integrate with a Discourse Community using sso, which enables user to log in into the Discourse by just providing login credentials to codearena only.
+- The trial version of this platform is available at [codearena.herokuapp.com](http://codearena.herokuapp.com).
+use **guest** as username and **123456** as the password for log in.
 
 Installation
 ----------------
