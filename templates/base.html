@@ -3,6 +3,7 @@
     <head>
 	    <meta charset="utf-8">
 	    <meta name="viewport" content="width=device-width, initial-scale=1">
+	    
 	    <title>{% block title %}{% endblock %}</title>
 	    <script  src="https://code.jquery.com/jquery-2.2.0.min.js"> </script>
 	    <script>
@@ -27,6 +28,7 @@
 
 	    {% load staticfiles %}
 	    <link rel="stylesheet" href="{% static 'css/mystyle.css' %}">
+	    <link rel="icon" href="{% static 'img/app-icon.png' %}" >
 	    {% if request.user.is_authenticated %}
 	        <script src="{% static 'js/search.js' %}"></script>
 	    {% endif %}    
