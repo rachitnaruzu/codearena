@@ -87,12 +87,13 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': 'codearena',
-        'USER': 'myprojectuser',
-        'PASSWORD': 'password',
-        'HOST': 'localhost',
-        'PORT': ''
+        'USER': 'codearenauser',
+        'PASSWORD': '<CODEARENA_DATABASE_PASSWORD>',
+        'HOST': 'localhost', # or 127.0.0.1 or 0.0.0.0
+        'PORT': '<POSTGRESQL_PORT>' # 5432 generally
     }
 }
+    
 
 # Password validation
 # https://docs.djangoproject.com/en/1.9/ref/settings/#auth-password-validators

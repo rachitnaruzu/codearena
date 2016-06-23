@@ -12,7 +12,7 @@ use **guest** as username and **123456** as the password for log in.
 Installation
 ----------------
 
-**Note:** This installation procedure is meant for Ubuntu OS. Replace all the text inclosed with <> with actual values before executing the statements. Better execute the statements line by line rather than copy pasting the whole block. There are some settings in python files that are recommended to be comment out during testing, which you have to later uncomment during production use. You might have to replace all 'localhost' text with '0.0.0.0' if you are deploying it on digitalocean or on some other online server.
+**Note:** This installation procedure is meant for Ubuntu OS. Replace all the text inclosed with <> with actual values before executing the statements. Better execute the statements line by line rather than copy pasting the whole block. There are some settings in python files that are recommended to be comment out during testing, which you have to later uncomment during production use. You might have to replace all 'localhost' text with '0.0.0.0' if you are deploying it on digitalocean or on some other online server. This installation assumes that you have alreasy installed python, pip and virtualenv \(sudo pip install virtualenv\).
 
 #### Step 1 : [Installing PostgreSQL database]
 
@@ -28,7 +28,7 @@ We will use PostgreSQL database with codearena. The PostgreSQL installation proc
       CREATE USER codearenauser WITH PASSWORD '<CODEARENA_DATABASE_PASSWORD>';
       ALTER ROLE codearenauser SET client_encoding TO 'utf8';
       ALTER ROLE codearenauser SET default_transaction_isolation TO 'read committed';
-      ALTER ROLE myprojectuser SET timezone TO 'UTC';
+      ALTER ROLE codearenauser SET timezone TO 'UTC';
       GRANT ALL PRIVILEGES ON DATABASE codearena TO codearenauser;
       \q
     exit
@@ -39,7 +39,7 @@ We will use PostgreSQL database with codearena. The PostgreSQL installation proc
     
 #### Step 3: [Setting up codearena platform]
 
-    sudo cd /var
+    cd /var
     sudo git clone https://github.com/rachitnaruzu/codearena.git
     
 open /var/codearena/codelabs/config.py:
@@ -80,7 +80,7 @@ set the following variables:
             'USER': 'codearenauser',
             'PASSWORD': '<CODEARENA_DATABASE_PASSWORD>',
             'HOST': 'localhost', # or 127.0.0.1 or 0.0.0.0
-            'PORT': '<POSTGRESQL_PORT>'
+            'PORT': '<POSTGRESQL_PORT>' # 5432 generally
         }
     }
     
@@ -99,25 +99,27 @@ set the following variables:
     password = '<password>'
 
 In terminal:
-    
-    sudo cd /var/codearena
-    sudo apt-get install libpq-dev python-dev
+
+    sudo apt-get install libpq-dev python-dev python3-dev libjpeg-dev libjpeg8-dev 
+    sudo -i
+    cd /var/codearena
     # create virtualenv with python3
-    sudo virtualenv venv -p python3
+    virtualenv venv -p python3
     # activate the virtualenv
-    sudo source venv/bin/activate
-    pip3 install --upgrade pip 
-    sudo pip3 install -r requirements.txt
-    sudo python manage.py collectstatic --noinput
-    sudo python manage.py makemigrations
-    sudo python manage.py migrate
-    sudo python seed.py
+    source venv/bin/activate
+    pip install --upgrade pip 
+    pip install -r requirements.txt
+    python manage.py collectstatic --noinput
+    python manage.py makemigrations
+    python manage.py migrate
+    python seed.py
     # deactivate virtualenv
     deactivate
+    exit
     
-open /var/codearena/codearena.conf:
+open /var/codearena/codearena_nginx.conf:
     
-    sudo vim /var/codearena/codearena.conf
+    sudo vim /var/codearena/codearena_nginx.conf
     
 set the following variables:
 
@@ -129,42 +131,55 @@ set the following variables:
     
 copy the files to specific locations:
 
-    sudo cp /var/codearena/codearena_nginx.conf /etc/nginx/sites-available
+    sudo cp /var/codearena/codearena_nginx.conf /etc/nginx/sites-enabled
     sudo cp /var/codearena/codearena_uwsgi.conf /etc/init
 
-#### Step 5: [Initialize Different Servers]    
+#### Step 5: [Initialize Servers]    
 
-initialize nginx:
- 
-    sudo service nginx restart
-    
-initialize uwsgi:
+initialize directories:
 
-    sudo cd /var/codearena
-    sudo source venv/bin/activate
-    sudo uwsgi --ini codearena_uwsgi.ini
-    
-initialize celery:
-
-    sudo addgroup celery
-    sudo adduser celery celery
     sudo mkdir /var/codearena/venv/var
     sudo mkdir /var/codearena/venv/var/run
     sudo mkdir /var/codearena/venv/var/log
     sudo mkdir /var/codearena/venv/var/run/celery
     sudo mkdir /var/codearena/venv/var/log/celery
-    sudo chown -R celery:celery /var/codearena/venv/var
-    sudo cp /var/codearena/celeryd /etc/init.d
-    sudo cp /var/codearena/codearena_celery.conf /etc/default/celeryd
-    sudo chmod +x /etc/init.d/celeryd
-    sudo /etc/init.d/celeryd start
+    sudo mkdir /var/codearena/venv/var/log/uwsgi
+
+initialize nginx:
+    
+    # you may have to stop apache2 if it is installed and running
+    sudo service apache2 stop # (optional)
+    sudo service nginx restart
+    
+initialize uwsgi:
+    
+    sudo /var/codearena/venv/bin/uwsgi --ini /var/codearena/codearena_uwsgi.ini
+    
+initialize celery:
+
+    sudo /var/codearena/venv/bin/celery multi start worker1 --workdir=/var/codearena --pidfile=/var/codearena/venv/var/run/celery/%N.log --logfile=/var/codearena/venv/var/log/celery/%N.log --loglevel=INFO --app=codearena --time-limit=300 --concurrency=8
     
 initialize webscraping job:
 
-    sudo chmod +x /var/codearena/codearena_webscrape
-    sudo cp /var/codearena/codearena_webscrape /etc/cron.daily 
+    sudo cp /var/codearena/codearena_webscrape /etc/cron.daily
+    sudo chmod +x /etc/cron.daily/codearena_webscrape
+    sudo /etc/cron.daily/codearena_webscrape
     
-Phew !! All done, now go to <CODEARENA_DOMAIN> and login using admin credentials.
+Phew !! All done, now go to \<CODEARENA_DOMAIN\> and login using admin credentials.
+
+#### Step 6
+
+Go to Admin -> Allowed Mail and add all the mailid that should be allowed to register using signup. To add mailids add
+'["user1@examplemail.com", "use2@examplemail.com", .....]'
+
+### Step 7: [Restart Server]
+
+if you restart your os, you may have to rerun the servers:
+    
+    sudo service apache2 stop # (optional)
+    sudo service nginx restart
+    sudo /var/codearena/venv/bin/uwsgi --ini /var/codearena/codearena_uwsgi.ini
+    sudo /var/codearena/venv/bin/celery multi start worker1 --workdir=/var/codearena --pidfile=/var/codearena/venv/var/run/celery/%N.log --logfile=/var/codearena/venv/var/log/celery/%N.log --loglevel=INFO --app=codearena --time-limit=300 --concurrency=8
 
 ### Setting Up Discourse (Optional)
 
@@ -198,7 +213,7 @@ Above procedure is taken from [this](https://meta.discourse.org/t/running-other-
 #### Step 2: [Setting up Discourse SSO]
 
 Assuming that Discourse has been setup correctly, create admin user in discourse with same 
-handle as that of codearena admin, then log in to discourse.Go to USERS -> click on the admin user -> click 'Generate' button. This will generate <DISCOURSE_API_KEY>.Go to settings and set the followin variables 
+handle as that of codearena admin, then log in to discourse.Go to USERS -> click on the admin user -> click 'Generate' button. This will generate \<DISCOURSE_API_KEY\>.Go to settings and set the followin variables 
 (you can search for them in the discourse search bar):
     
     notification_email : <CODEARENA_MAIL_ID>
