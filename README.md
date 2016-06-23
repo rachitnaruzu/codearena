@@ -169,8 +169,7 @@ Phew !! All done, now go to \<CODEARENA_DOMAIN\> and login using admin credentia
 
 #### Step 6
 
-Go to Admin -> Allowed Mail and add all the mailid that should be allowed to register using signup. To add mailids add
-'["user1@examplemail.com", "use2@examplemail.com", .....]'
+Go to Admin -> Allowed Mail and add all the mailid that should be allowed to register using signup. add mailids in json format => ["user1@examplemail.com", "use2@examplemail.com", .....]
 
 #### Step 7: [Restart Server]
 
