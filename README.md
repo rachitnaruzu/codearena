@@ -12,7 +12,7 @@ use **guest** as username and **123456** as the password for log in.
 Installation
 ----------------
 
-**Note:** This installation procedure is meant for Ubuntu OS. Replace all the text inclosed with <> with actual values before executing the statements. Better execute the statements line by line rather than copy pasting the whole block. There are some settings in python files that are recommended to be comment out during testing, which you have to later uncomment during production use. You might have to replace all 'localhost' text with '0.0.0.0' if you are deploying it on digitalocean or on some other online server. This installation assumes that you have alreasy installed python, pip and virtualenv \(sudo pip install virtualenv\).
+**Note:** This installation procedure is meant for Ubuntu OS. Replace all the text inclosed with <> with actual values before executing the statements. Better execute the statements line by line rather than copy pasting the whole block. You might have to replace all 'localhost' text with '0.0.0.0' if you are deploying it on digitalocean or on some other online server. This installation assumes that you have alreasy installed python, pip and virtualenv \(sudo pip install virtualenv\).
 
 #### Step 1 : [Installing PostgreSQL database]
 
