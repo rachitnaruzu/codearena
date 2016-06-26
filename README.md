@@ -252,7 +252,7 @@ set the following variables:
 stop the running uwsgi process:
 
     sudo ps ax | grep uwsgi 
-    # kill all the processes of all PID given by above statement.
+    # kill all the processes with PIDs given by above statement.
     sudo kill -9 <PID>
     sudo /var/codearena/venv/bin/uwsgi --ini /var/codearena/codearena_uwsgi.ini
     
